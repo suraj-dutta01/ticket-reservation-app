@@ -1,0 +1,79 @@
+package org.jsp.reservationapi.service;
+
+import java.util.Optional;
+
+import org.jsp.reservationapi.dao.AdminDao;
+import org.jsp.reservationapi.dto.ResponseStructure;
+import org.jsp.reservationapi.exceptions.AdminNotFoundException;
+import org.jsp.reservationapi.exceptions.AdminVerificationFailedException;
+import org.jsp.reservationapi.model.Admin;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AdminService {
+	@Autowired
+	private AdminDao adminDao;
+	public ResponseEntity<ResponseStructure<Admin>> saveAdmin(Admin admin){
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+		structure.setMessage("Admin Saved");
+		structure.setStatusCode(HttpStatus.CREATED.value());
+		structure.setData(adminDao.saveAdmin(admin));
+		return ResponseEntity.status(HttpStatus.CREATED).body(structure);
+	}
+	public ResponseEntity<ResponseStructure<Admin>> updateAdmin(Admin admin){
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+		Optional<Admin> resAdmin=adminDao.findById(admin.getId());
+		if(resAdmin.isPresent()) {
+			Admin dbAdmin=resAdmin.get();
+			dbAdmin.setName(admin.getName());
+			dbAdmin.setPhone(admin.getPhone());
+			dbAdmin.setEmail(admin.getEmail());
+			dbAdmin.setGst_number(admin.getGst_number());
+			dbAdmin.setTravels_name(admin.getTravels_name());
+			dbAdmin.setPassword(admin.getPassword());
+			structure.setMessage("Admin Updated");
+			structure.setStatusCode(HttpStatus.ACCEPTED.value());
+			structure.setData(adminDao.saveAdmin(dbAdmin));
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(structure);
+		}
+		throw new AdminNotFoundException("Admin id is invalid");
+	}
+	public ResponseEntity<ResponseStructure<Admin>> findById(int id){
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+		Optional<Admin> resAdmin=adminDao.findById(id);
+		if(resAdmin.isPresent()) {
+			structure.setMessage("Admin Updated");
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setData(resAdmin.get());
+			return ResponseEntity.status(HttpStatus.OK).body(structure);
+		}
+		throw new AdminNotFoundException("Admin id is invalid");
+	}
+	public ResponseEntity<ResponseStructure<Admin>> verifyAdmin(long phone,String password){
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+		Optional<Admin> resAdmin=adminDao.verifyAdmin(phone, password);
+		if(resAdmin.isPresent()) {
+			structure.setMessage("Admin Verification successfull");
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setData(resAdmin.get());
+			return ResponseEntity.status(HttpStatus.OK).body(structure);
+		}
+		throw new AdminVerificationFailedException("Admin Verifivation failed because of invalid cradentials");
+	}
+	public ResponseEntity<ResponseStructure<Admin>> verifyAdmin(String email,String password){
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+		Optional<Admin> resAdmin=adminDao.verifyAdmin(email, password);
+		if(resAdmin.isPresent()) {
+			System.out.println("00000000000000000000000000000000");
+			structure.setMessage("Admin Verification successfull");
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setData(resAdmin.get());
+			return ResponseEntity.status(HttpStatus.OK).body(structure);
+		}
+		throw new AdminVerificationFailedException("Admin Verifivation failed because of invalid cradentials");
+	}
+
+}
