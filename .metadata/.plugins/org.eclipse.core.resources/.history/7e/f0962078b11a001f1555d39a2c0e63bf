@@ -1,0 +1,37 @@
+package org.jsp.reservationapi.controller;
+
+import java.util.Optional;
+
+import org.jsp.reservationapi.dto.BusRequest;
+import org.jsp.reservationapi.dto.ResponseStructure;
+import org.jsp.reservationapi.exceptions.AdminNotFoundException;
+import org.jsp.reservationapi.exceptions.BusNotFoundException;
+import org.jsp.reservationapi.model.Admin;
+import org.jsp.reservationapi.model.Bus;
+import org.jsp.reservationapi.service.BusService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/busses")
+public class BusController {
+	@Autowired
+	private BusService busService;
+	@PostMapping("/{id}")
+	public ResponseEntity<ResponseStructure<Bus>> saveBus (@RequestBody BusRequest busRequest,@PathVariable(value = "id") int admin_id){
+		System.out.println("00000000000000000");
+		return busService.saveBus(busRequest, admin_id);
+	}
+	@PutMapping("/{id}")
+	public ResponseEntity<ResponseStructure<Bus>> updateBus(@RequestBody BusRequest busRequest,@PathVariable(name = "id") int bus_id){
+		return busService.updateBus(busRequest, bus_id);	
+	}
+
+}

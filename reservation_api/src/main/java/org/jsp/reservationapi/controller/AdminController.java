@@ -2,6 +2,7 @@ package org.jsp.reservationapi.controller;
 
 
 import org.jsp.reservationapi.dto.AdminRequest;
+import org.jsp.reservationapi.dto.AdminResponse;
 import org.jsp.reservationapi.dto.ResponseStructure;
 import org.jsp.reservationapi.model.Admin;
 import org.jsp.reservationapi.service.AdminService;
@@ -22,23 +23,23 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	@PostMapping
-	public ResponseEntity<ResponseStructure<Admin>> saveAdmin(@RequestBody AdminRequest adminRequest){
+	public ResponseEntity<ResponseStructure<AdminResponse>> saveAdmin(@RequestBody AdminRequest adminRequest){
 		return adminService.saveAdmin(adminRequest);
 	}
 	@PutMapping("/{id}")
-	public ResponseEntity<ResponseStructure<Admin>> updateAdmin(@RequestBody AdminRequest adminRequest,@PathVariable(name = "id")int id){
+	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdmin(@RequestBody AdminRequest adminRequest,@PathVariable(name = "id")int id){
 		return adminService.updateAdmin(adminRequest,id);
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseStructure<Admin>> findById(@PathVariable(name = "id") int id){
+	public ResponseEntity<ResponseStructure<AdminResponse>> findById(@PathVariable(name = "id") int id){
 		return adminService.findById(id);
 	}
 	@PostMapping("/verify-by-email")
-	public ResponseEntity<ResponseStructure<Admin>> verifyAdmin(@RequestParam(value = "email") String email,@RequestParam(value = "password")String password){
+	public ResponseEntity<ResponseStructure<AdminResponse>> verifyAdmin(@RequestParam(value = "email") String email,@RequestParam(value = "password")String password){
 		return adminService.verifyAdmin(email, password);
 	}
 	@PostMapping("/verify-by-phone")
-	public ResponseEntity<ResponseStructure<Admin>> verifyAdmin(@RequestParam(value = "phone")long phone,@RequestParam(value = "password")String password){
+	public ResponseEntity<ResponseStructure<AdminResponse>> verifyAdmin(@RequestParam(value = "phone")long phone,@RequestParam(value = "password")String password){
 		return adminService.verifyAdmin(phone, password);
 	}
 	@GetMapping("/delete/{id}")
