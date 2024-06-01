@@ -26,5 +26,8 @@ public class AdminDao {
 	public void deleteById(int id) {
 		adminRepository.deleteById(id);
 	}
+	public Optional<Admin> findByToken(String token) {
+		return adminRepository.findByToken(token);
+	}
 
 }

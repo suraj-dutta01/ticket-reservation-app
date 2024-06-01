@@ -14,15 +14,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import net.bytebuddy.utility.RandomString;
+
 @Service
 public class AdminService {
 	@Autowired
 	private AdminDao adminDao;
+	@Autowired
+	private ReservationApiMailService mailService;
 	
-	public ResponseEntity<ResponseStructure<AdminResponse>> saveAdmin(AdminRequest adminRequest){
+	public ResponseEntity<ResponseStructure<AdminResponse>> saveAdmin(AdminRequest adminRequest,HttpServletRequest request){
+		String sideUrl=request.getRequestURL().toString();
+		String path=request.getServletPath();
+		String activation_link=sideUrl.replace(path, "/api/admins/activate");
 		ResponseStructure<AdminResponse> structure=new ResponseStructure<>();
-		Admin admin=adminDao.saveAdmin(mapToAdmin(adminRequest));
-		structure.setMessage("Admin Saved");
+		String token=RandomString.make(40);
+		activation_link +="?token="+token;
+		Admin admin=mapToAdmin(adminRequest);
+		admin.setToken(token);
+		admin.setStatus("IN_ACTIVE");
+		adminDao.saveAdmin(admin);		
+		structure.setMessage(mailService.sendMail(admin.getEmail(),activation_link));
 		structure.setStatusCode(HttpStatus.CREATED.value());
 		structure.setData(mapToAdminResponse(admin));
 		return ResponseEntity.status(HttpStatus.CREATED).body(structure);
@@ -104,6 +117,19 @@ public class AdminService {
 		return AdminResponse.builder().id(admin.getId()).name(admin.getName()).phone(admin.getPhone())
 				.email(admin.getEmail()).gst_number(admin.getGst_number()).travels_name(admin.getTravels_name())
 				.password(admin.getPassword()).build();
+	}
+	
+	public String activateAccount(String token) {
+		Optional<Admin> resAdmin=adminDao.findByToken(token);
+		if(resAdmin.isEmpty()) {
+			throw new AdminNotFoundException("Invalid Token");
+		}else {
+			Admin dbAdmin=resAdmin.get();
+			dbAdmin.setStatus("ACTIVE");
+			dbAdmin.setToken(null);
+			adminDao.saveAdmin(dbAdmin);
+			return "Your Account has been activated";
+		}
 	}
 
 }

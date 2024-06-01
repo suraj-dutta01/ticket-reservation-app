@@ -1,0 +1,34 @@
+.landingpage{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.landingpage a img{
+    height: 100px;
+    width: 100px;
+    transition: 200ms;
+}
+.landingpage a{
+    text-decoration: none;
+}
+.landingpage a h3{
+    color: rgb(0, 0, 0);
+    transition: 200ms;
+}
+.landingpage a h3:hover{
+    color: rgb(0, 83, 138);
+}
+.landingpage a img:hover{
+    transform: scale(1.05);
+}
+.links{
+    height: 30%;
+    width: 40%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0px 0px 10px rgb(76, 70, 70);
+    border-radius: 5px;
+}

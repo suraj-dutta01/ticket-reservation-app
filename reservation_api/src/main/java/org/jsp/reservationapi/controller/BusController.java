@@ -10,6 +10,7 @@ import org.jsp.reservationapi.service.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +19,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+@CrossOrigin
 @RestController
 @RequestMapping("/api/busses")
 public class BusController {
 	@Autowired
 	private BusService busService;
 	@PostMapping("/{id}")
-	public ResponseEntity<ResponseStructure<BusResponse>> saveBus (@RequestBody BusRequest busRequest,@PathVariable(value = "id") int admin_id){
+	public ResponseEntity<ResponseStructure<BusResponse>> saveBus (@Valid @RequestBody BusRequest busRequest,@PathVariable(value = "id") int admin_id){
 		return busService.saveBus(busRequest, admin_id);
 	}
 	@PutMapping("/{id}")
-	public ResponseEntity<ResponseStructure<BusResponse>> updateBus(@RequestBody BusRequest busRequest,@PathVariable(name = "id") int bus_id){
+	public ResponseEntity<ResponseStructure<BusResponse>> updateBus(@Valid @RequestBody BusRequest busRequest,@PathVariable(name = "id") int bus_id){
 		return busService.updateBus(busRequest, bus_id);	
 	}
 	@GetMapping("/{id}")

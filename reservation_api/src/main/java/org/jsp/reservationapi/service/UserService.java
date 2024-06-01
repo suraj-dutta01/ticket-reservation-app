@@ -14,15 +14,29 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import net.bytebuddy.utility.RandomString;
+
 @Service
 public class UserService {
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private ReservationApiMailService mailService;
 	
-	public ResponseEntity<ResponseStructure<UserResponse>> saveUser(UserRequest userRequest){
+	public ResponseEntity<ResponseStructure<UserResponse>> saveUser(UserRequest userRequest,HttpServletRequest request){
+		String sideUrl=request.getRequestURL().toString();
+		String path=request.getServletPath();
+		String activation_link=sideUrl.replace(path,"/api/users/activate");
 		ResponseStructure<UserResponse> structure=new ResponseStructure<>();
-	    structure.setMessage("User Saved");
-	    structure.setData(mapToUserResponse(userDao.saveUser(mapToUaer(userRequest))));
+		String token=RandomString.make(45);
+		activation_link +="?token="+token;
+		User user=mapToUaer(userRequest);
+		user.setToken(token);
+		user.setStatus("IN_ACTIVE");
+		userDao.saveUser(user);
+	    structure.setMessage(mailService.sendMail(user.getEmail(),activation_link));
+	    structure.setData(mapToUserResponse(user));
 	    structure.setStatusCode(HttpStatus.CREATED.value());
 	    return ResponseEntity.status(HttpStatus.CREATED).body(structure);
 	}
@@ -100,6 +114,16 @@ public class UserService {
 	private UserResponse mapToUserResponse(User user) {
 		return UserResponse.builder().id(user.getId()).name(user.getName()).phone(user.getPhone()).
 				email(user.getEmail()).age(user.getAge()).gender(user.getGender()).password(user.getPassword()).build();
+	}
+	public String activationAccount(String token) {
+		Optional<User> resUser=userDao.findByToken(token);
+		if(resUser.isEmpty())
+			throw new UserNotFoundException("Invalid Token");
+		User user=resUser.get();
+		user.setStatus("ACTIVE");
+		user.setToken(null);
+		userDao.saveUser(user);
+		return "Your Account has been activated";
 	}
 
 }

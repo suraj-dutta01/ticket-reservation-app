@@ -1,13 +1,23 @@
 package org.jsp.reservationapi.exceptions;
 
+import java.io.ObjectInputStream.GetField;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.jsp.reservationapi.dto.ResponseStructure;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-@ControllerAdvice
-public class ReservationExceptionHandler extends ResponseEntityExceptionHandler{
+@RestControllerAdvice
+public class ReservationExceptionHandler {
 	@ExceptionHandler(AdminNotFoundException.class)
 	public ResponseEntity<ResponseStructure<String>> AdminNotFoundExceptionHandler(AdminNotFoundException exception){
 		ResponseStructure<String> structure=new ResponseStructure<>();
@@ -48,6 +58,18 @@ public class ReservationExceptionHandler extends ResponseEntityExceptionHandler{
 		structure.setData(exception.getMessage());
 		structure.setStatusCode(HttpStatus.NOT_FOUND.value());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
+	}
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> handleValidationException(MethodArgumentNotValidException exception){
+		Map<String,String> errors=new HashMap<>();
+		List<ObjectError> objectErrors=exception.getBindingResult().getAllErrors();
+		for(ObjectError objectError:objectErrors) {
+			String fieldName=((FieldError)objectError).getField();
+			String errorMessage=objectError.getDefaultMessage();
+			errors.put(fieldName, errorMessage);
+		}
+		return errors;
 	}
 
 }
