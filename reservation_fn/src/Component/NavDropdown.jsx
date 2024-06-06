@@ -9,7 +9,7 @@ const NavDropdown = () => {
     
           <Dropdown.Menu>
             <Dropdown.Item href="/adminhomepage/addbus">AddBus</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Busess List</Dropdown.Item>
+            <Dropdown.Item href="/adminhomepage/viewbus">Busess List</Dropdown.Item>
             <Dropdown.Item href="#/action-3">Edit Profile</Dropdown.Item>
             <Dropdown.Item href="#/action-4">Logout</Dropdown.Item>
           </Dropdown.Menu>

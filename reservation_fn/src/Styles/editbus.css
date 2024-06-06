@@ -1,0 +1,49 @@
+.editbus{
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(59, 57, 57);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.editbus form{
+ margin-top: 60px;
+ display: grid;
+ grid-template-columns: 160px 240px;
+ justify-content: center;
+ padding: 10px;
+ box-shadow: 0px 0px 20px white;
+ border-radius: 8px;
+ width: 40%;
+ gap: 8px;
+ color: white;
+ padding: 20px;
+}
+.editbus form input{
+    background-color: rgb(99, 101, 101);
+    outline: none;
+    border: none;
+    color: white;
+    padding-left: 10px;
+    border-radius: 5px;
+    height: 30px;
+}
+.editbus form input::placeholder{
+    color: rgb(96, 194, 161);
+}
+#editbusbutton{
+    height: 30px;
+    background-color: rgb(81, 255, 0);
+    margin-top: 7px;
+    border: none;
+    border-radius: 5px;
+    color: rgb(255, 255, 255);
+    width: 240px;
+    margin-left: 169px;
+    transition: 240ms;
+    font-size: 17px;
+    font-weight: bold;
+}
+#editbusbutton:hover{
+    background-color: rgb(77, 177, 10);
+}

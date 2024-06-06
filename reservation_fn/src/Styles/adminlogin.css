@@ -58,4 +58,9 @@
 .loginButton:hover{
     background-color: rgb(6, 18, 146);
 }
-
+#forgorpass{
+    font-size: 13px;
+    color: white;
+    margin-top: -5px;
+    margin-bottom: -8px;
+}

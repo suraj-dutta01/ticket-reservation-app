@@ -18,7 +18,7 @@ const AdminRegistration = () => {
         axios.post("http://localhost:8080/api/admins",data)
         .then((res)=>{
             alert("admin registration successfull")
-            navigate("/userlogin")
+            navigate("/adminlogin")
         })
         .catch((err)=>{
             alert("Admin registration failed")

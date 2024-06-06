@@ -1,12 +1,14 @@
 .addbus{
 height: 89.2vh;
-background-color: rgb(70, 69, 69);
+background-color: rgb(49, 46, 46);
 width: 100vw;
 display: flex;
 justify-content: center;
 align-items: center;
+height: 100vh;
 }
 .addbus form{
+    margin-top: 60px;
     display: grid;
  grid-template-columns: 160px 240px;
  justify-content: center;
@@ -19,7 +21,7 @@ align-items: center;
  padding: 20px;
 }
 .addbus form input{
-    background-color: rgb(36, 37, 37);
+    background-color: rgb(99, 101, 101);
     outline: none;
     border: none;
     color: white;

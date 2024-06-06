@@ -1,5 +1,7 @@
 package org.jsp.reservationapi.service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.jsp.reservationapi.dao.AdminDao;
@@ -79,6 +81,19 @@ public class BusService {
 		throw new BusNotFoundException("Bus Not Found As Bus Id Is Invalid");
 	}
 	
+	public ResponseEntity<ResponseStructure<List<Bus>>> findAllBus(){
+		ResponseStructure<List<Bus>>structure=new ResponseStructure<>();
+		List<Bus> buses=busDao.findAllBus();
+		if(buses.isEmpty()) {
+		   throw new BusNotFoundException("Not any Bus Found");
+		}else {
+			structure.setMessage("Bus Found");
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setData(buses);
+			return ResponseEntity.status(HttpStatus.OK).body(structure);
+		}
+	}
+	
 	private Bus mapToBus(BusRequest busRequest) {
 		return Bus.builder().name(busRequest.getName()).bus_number(busRequest.getBus_number())
 				.number_of_seats(busRequest.getNumber_of_seats()).from_location(busRequest.getFrom_location())
@@ -91,4 +106,26 @@ public class BusService {
 				.to_location(bus.getTo_location()).date_of_departure(bus.getDate_of_departure()).build();
 	}
 
+	public ResponseEntity<ResponseStructure<List<Bus>>> findBusByAdminId(int id){
+		ResponseStructure<List<Bus>>structure=new ResponseStructure<>();
+		List<Bus> resBus=busDao.findByAdminId(id);
+		if(resBus.isEmpty()) {
+			throw new BusNotFoundException("No bus found under this admin");
+		}
+		structure.setData(resBus);
+		structure.setMessage("Bus found under this admin");
+		structure.setStatusCode(HttpStatus.OK.value());
+		return ResponseEntity.status(HttpStatus.OK).body(structure);
+	}
+	public ResponseEntity<ResponseStructure<List<Bus>>> findBusess(String from_location,String to_location,LocalDate date_of_departure){
+		ResponseStructure<List<Bus>>structure=new ResponseStructure<>();
+		List<Bus> resBus=busDao.findBusess(from_location, to_location, date_of_departure);
+		if(resBus.isEmpty()) {
+			throw new BusNotFoundException("No bus found in this rute");
+		}
+		structure.setData(resBus);
+		structure.setMessage("Bus found");
+		structure.setStatusCode(HttpStatus.OK.value());
+		return ResponseEntity.status(HttpStatus.OK).body(structure);
+	}
 }

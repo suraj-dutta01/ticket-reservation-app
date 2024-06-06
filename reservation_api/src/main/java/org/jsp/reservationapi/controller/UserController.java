@@ -1,14 +1,13 @@
 package org.jsp.reservationapi.controller;
 
-import java.util.Optional;
-
 import org.jsp.reservationapi.dto.ResponseStructure;
 import org.jsp.reservationapi.dto.UserRequest;
 import org.jsp.reservationapi.dto.UserResponse;
-import org.jsp.reservationapi.model.User;
 import org.jsp.reservationapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -46,12 +45,12 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<UserResponse>> verifyuser(@RequestParam(value = "email")String email,@RequestParam(value = "password")String password){
 		return userService.verifyuser(email, password);
 	}
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<ResponseStructure<String>> deleteuser(@PathVariable(name = "id") int id){
 		return userService.deleteUser(id);
 	}
     @GetMapping("/activate")
-	public String activationAccount(String token) {
+	public String activationAccount(@RequestParam String token) {
 		return userService.activationAccount(token);
 	}
 

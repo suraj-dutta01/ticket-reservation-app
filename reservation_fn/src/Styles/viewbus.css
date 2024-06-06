@@ -1,0 +1,83 @@
+.viewbus{
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgb(44, 42, 42);
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 73px;
+}
+.busdetails{
+    margin: 10px 0px;
+  display: flex;
+  flex-direction: column;  
+  align-items: center;
+  box-shadow: 0px 0px 20px white;
+  background-color: rgb(44, 43, 43);
+  color: white;
+  height: 100px;
+  width: 80%;
+  padding-top: 12px;
+  border-radius: 10px;
+  gap: 5px;
+  transition: 220ms;
+}
+.busdetails:hover{
+  transform: scale(1.02);
+}
+.firstbox{
+    display: flex;
+    justify-content: space-around;
+    width: 90%;
+}
+.secondbox{
+    display: flex;
+    justify-content: space-around;
+    width: 90%;   
+}
+.busrute{
+    display: flex;
+    justify-content: space-around;
+    width: 30%;
+}
+.secondbox button{
+    height: 30px;
+    width: 100px;
+    border: none;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    padding-bottom: 2.2px;
+    transition: 240ms;
+}
+.secondbox button:hover{
+    background-color: brown;
+}
+#editbus{
+background-color: rgb(0, 255, 0);
+height: 26px;
+width: 26px;
+border-radius: 3px;
+transition: 240ms;
+}
+#editbus:hover{
+    background-color: green;
+}
+#deletebus{
+    background-color: rgb(255, 0, 0);
+    height: 26px;
+    width: 26px;
+    border-radius: 3px;
+    transition: 240ms;
+}
+#deletebus:hover{
+    background-color: brown;
+}
+.busbuttons{
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}

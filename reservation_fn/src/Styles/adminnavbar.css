@@ -2,15 +2,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(166, 214, 225);
+    background-color: rgb(107, 104, 104);
     padding: 0px 50px;
     height: 60px;
+    position: fixed;
+    width: 100%;
+    z-index: 5;
 }
 .logo h1{
     color: red;
     font-size: 30px;
 }
 .logo h1 span{
-    color: rgb(43, 49, 226);
+    color: rgb(43, 128, 226);
     font-size: 20px;
 }

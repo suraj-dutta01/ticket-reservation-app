@@ -2,13 +2,6 @@ package org.jsp.reservationapi.dto;
 
 import java.time.LocalDate;
 
-import org.jsp.reservationapi.model.Admin;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

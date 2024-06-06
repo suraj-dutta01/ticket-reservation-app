@@ -10,19 +10,32 @@ const AdminLogin = () => {
     let[password,setPassword]=useState("")
     let navigate=useNavigate()
     let[showPassword,setShowPassword]=useState(false)
-    let[admin,setAdmin]=useState([]);
     function verify(e) {
         e.preventDefault()
-        axios.post(`http://localhost:8080/api/admins/verify-by-phone?phone=${username}&password=${password}`)
+        if(username.includes("@")){
+        axios.post(`http://localhost:8080/api/admins/verify-by-email?email=${username}&password=${password}`)
         .then((res)=>{
             console.log(res.data.data.name);
-            setAdmin(res.data.data);
             navigate('/adminhomepage')
             alert(`Welcome to our application ${res.data.data.name}`)
+            localStorage.setItem("Admin",JSON.stringify(res.data.data))
         })
         .catch((err)=>{
             alert("Admin Login Failed")
         })
+
+        }else{
+        axios.post(`http://localhost:8080/api/admins/verify-by-phone?phone=${username}&password=${password}`)
+        .then((res)=>{
+            console.log(res.data.data.name);
+            navigate('/adminhomepage')
+            alert(`Welcome to our application ${res.data.data.name}`)
+            localStorage.setItem("Admin",JSON.stringify(res.data.data))
+        })
+        .catch((err)=>{
+            alert("Admin Login Failed")
+        })
+        }
     }
     function passwordVisiblityHandler() {
         setShowPassword(!showPassword)
@@ -39,6 +52,7 @@ const AdminLogin = () => {
                     {showPassword?<VisibilityIcon/>:<VisibilityOffIcon/>}
                  </IconButton>
                 <button className="loginButton">Login</button>
+                <Link id="forgorpass" to={"/adminforgotpassword"}>Forgot Password?</Link>
                 <p>Are you new a user? <Link to="/adminsignup">Register</Link></p>
             </form>
         </div>
