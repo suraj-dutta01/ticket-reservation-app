@@ -1,9 +1,11 @@
 package org.jsp.reservationapi.service;
 
+import java.util.List;
 import java.util.Optional;
 
 
 import org.jsp.reservationapi.dao.AdminDao;
+import org.jsp.reservationapi.dao.BusDao;
 import org.jsp.reservationapi.dto.AdminRequest;
 import org.jsp.reservationapi.dto.AdminResponse;
 import org.jsp.reservationapi.dto.EmailConfiguration;
@@ -11,6 +13,7 @@ import org.jsp.reservationapi.dto.ResponseStructure;
 import org.jsp.reservationapi.exceptions.AdminNotFoundException;
 import org.jsp.reservationapi.exceptions.AdminVerificationFailedException;
 import org.jsp.reservationapi.model.Admin;
+import org.jsp.reservationapi.model.Bus;
 import org.jsp.reservationapi.util.AccountStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,10 @@ public class AdminService {
 	private LinkGeneratorService linkGeneratorService;
 	@Autowired
 	private EmailConfiguration emailConfiguration;
+	@Autowired
+	private BusDao busDao;
+	@Autowired
+	private BusService busService;
 	
 	public ResponseEntity<ResponseStructure<AdminResponse>> saveAdmin(AdminRequest adminRequest,HttpServletRequest request){
 		ResponseStructure<AdminResponse> structure=new ResponseStructure<>();
@@ -110,9 +117,22 @@ public class AdminService {
 	
 	public ResponseEntity<ResponseStructure<String>> deleteAdmin(int id){
 		ResponseStructure<String> structure=new ResponseStructure<>();
-		if(adminDao.findById(id).isPresent()) {
+		Optional<Admin>resAdmin=adminDao.findById(id);
+		if(resAdmin.isPresent()) {
+			Admin admin=resAdmin.get();
+			List<Bus> busess=busDao.findByAdminId(admin.getId());
+			if(busess.size()>0) {
+				for(Bus bus:busess) {
+					bus.setAdmin(null);
+					busService.deleteById(bus.getId());
+				}
+				adminDao.deleteById(id);
+			}else {
+				adminDao.deleteById(id);
+			}
+			
+			
 			structure.setMessage("Admin Deleted");
-			adminDao.deleteById(id);
 			structure.setData("Admin is deleted");
 			structure.setStatusCode(HttpStatus.OK.value());
 			return ResponseEntity.status(HttpStatus.OK).body(structure);

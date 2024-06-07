@@ -1,6 +1,7 @@
 package org.jsp.reservationapi.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,5 +43,14 @@ public class Bus {
 	@JoinColumn(name = "admin_id")
 	@JsonIgnore
 	private Admin admin;
+	@Column(nullable = false)
+	private int number_of_avilable_seats;
+	@Column(nullable = false)
+	private double cost_per_seats;
+	@OneToMany(mappedBy = "bus")
+	private List<Ticket> booked_tickets;
+	@Column(nullable = false)
+	private String description;
+	private String imageUrl;
 
 }

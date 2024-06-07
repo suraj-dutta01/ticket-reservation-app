@@ -1,8 +1,10 @@
 package org.jsp.reservationapi.service;
 
+import java.util.List;
 import java.util.Optional;
 
-
+import org.jsp.reservationapi.dao.BusDao;
+import org.jsp.reservationapi.dao.TicketDao;
 import org.jsp.reservationapi.dao.UserDao;
 import org.jsp.reservationapi.dto.EmailConfiguration;
 import org.jsp.reservationapi.dto.ResponseStructure;
@@ -10,8 +12,11 @@ import org.jsp.reservationapi.dto.UserRequest;
 import org.jsp.reservationapi.dto.UserResponse;
 import org.jsp.reservationapi.exceptions.UserNotFoundException;
 import org.jsp.reservationapi.exceptions.UserVerificationFailedException;
+import org.jsp.reservationapi.model.Bus;
+import org.jsp.reservationapi.model.Ticket;
 import org.jsp.reservationapi.model.User;
 import org.jsp.reservationapi.util.AccountStatus;
+import org.jsp.reservationapi.util.TicketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +34,10 @@ public class UserService {
 	private LinkGeneratorService linkGeneratorService;
 	@Autowired
 	private EmailConfiguration emailConfiguration;
+	@Autowired
+	private TicketDao ticketDao;
+	@Autowired
+	private BusDao busDao;
 	
 	public ResponseEntity<ResponseStructure<UserResponse>> saveUser(UserRequest userRequest,HttpServletRequest request){
 		ResponseStructure<UserResponse> structure=new ResponseStructure<>();
@@ -108,9 +117,28 @@ public class UserService {
 	}
 	public ResponseEntity<ResponseStructure<String>> deleteUser(int id){
 		ResponseStructure<String> structure=new ResponseStructure<>();
-		if(userDao.findById(id).isPresent()) {
+		Optional<User>resUser=userDao.findById(id);
+		if(resUser.isPresent()) {
+			User user=resUser.get();
+			List<Ticket>tickets=ticketDao.findByUserId(user.getId());
+			if(tickets.size()>0) {
+				for(Ticket ticket:tickets) {
+					if(ticket.getStatus().equals(TicketStatus.BOOKED.toString()) && ticket.getBus()!=null) {
+						Optional<Bus>resBus=busDao.findBusById(ticket.getBus().getId());
+						Bus bus=resBus.get();
+						bus.setNumber_of_avilable_seats(bus.getNumber_of_avilable_seats()+ticket.getNumber_Of_Seats_Booked());
+						busDao.saveBus(bus);
+					}
+					ticket.setStatus(TicketStatus.CANCELLED.toString());
+					ticket.setUser(null);
+					ticketDao.saveTicket(ticket);
+				}
+				userDao.deleteUser(id);
+			}else {
+				userDao.deleteUser(id);
+			}
+			
 			structure.setMessage("User Deleted");
-			userDao.deleteUser(id);
 			structure.setData("user is deleted");
 			structure.setStatusCode(HttpStatus.OK.value());
 			return ResponseEntity.status(HttpStatus.OK).body(structure);

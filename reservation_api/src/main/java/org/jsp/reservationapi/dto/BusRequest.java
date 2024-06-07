@@ -17,4 +17,8 @@ public class BusRequest {
 	@NotBlank(message = "To location is mendatory")
 	private String to_location;	
 	private LocalDate date_of_departure;
+	private double cost_per_seats;
+	@NotBlank(message = "To Description is mendatory")
+	private String description;
+	private String imageUrl;
 }

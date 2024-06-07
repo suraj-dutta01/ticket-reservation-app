@@ -18,5 +18,9 @@ public class BusResponse {
 	private String from_location;
 	private String to_location;
 	private LocalDate date_of_departure;	
+	private int number_of_avilable_seats;
+	private double cost_per_seats;
+	private String description;
+	private String imageUrl;
 
 }

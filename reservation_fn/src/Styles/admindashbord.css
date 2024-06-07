@@ -1,0 +1,104 @@
+.admindashbord{
+    padding-top: 100px;
+    width: 100%;
+    background-color: rgb(67, 64, 64);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+.admindashbord form{
+    box-shadow: 0px 0px 20px white;
+    height: 80px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px; 
+    
+}
+.admindashbord form input{
+    height: 70px;
+    background-color: rgb(144, 139, 139);
+    outline: none;
+    border: none;
+    border-right: 2px solid white;
+    padding-left: 20px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+}
+.admindashbord form input::placeholder{
+    color: white;
+}
+.admindashbord form button{
+    height: 70.5px;
+    width: 100px;
+    color: white;
+    font-weight: bold;
+    background-color: red;
+    border: none;
+}
+
+.dashbusdetails{
+    margin: 10px 0px;
+     display: flex;
+     flex-direction: column;  
+     align-items: center;
+     box-shadow: 0px 0px 20px white;
+     background-color: rgb(44, 43, 43);
+     color: white;
+     height: 100px;
+     width: 80%;
+     padding-top: 12px;
+     border-radius: 10px;
+     gap: 5px;
+     transition: 220ms;
+   }
+   .dashbusdetails:hover{
+     transform: scale(1.02);
+   }
+   .dashfirstbox{
+       display: flex;
+       justify-content: space-around;
+       width: 90%;
+   }
+   .dashsecondbox{
+       display: flex;
+       justify-content: space-around;
+       width: 90%;   
+   }
+   .dashbusrute{
+       display: flex;
+       justify-content: space-around;
+       width: 30%;
+   }
+   .dashsecondbox button{
+       height: 30px;
+       width: 100px;
+       border: none;
+       background-color: red;
+       color: white;
+       border-radius: 5px;
+       font-size: 14px;
+       padding-bottom: 2.2px;
+       transition: 240ms;
+   }
+   .dashsecondbox button:hover{
+       background-color: brown;
+   }
+   
+   .dashbusbuttons{
+       width: 15%;
+       display: flex;
+       justify-content: center;
+       gap: 15px;
+   }
+   .dashseatsbox{
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       gap: 15px;
+   }

@@ -51,7 +51,7 @@ public class BusController {
 		return busService.findAllBus();
 	}
 	@GetMapping("/{from}/{to}/{date}")
-	public ResponseEntity<ResponseStructure<List<Bus>>> findBusess(@PathVariable(value = "from") String from_location,@PathVariable(value = "to")String to_location,@PathVariable(value = "date")LocalDate date_of_departure){
+	public ResponseEntity<ResponseStructure<List<BusResponse>>> findBusess(@PathVariable(value = "from") String from_location,@PathVariable(value = "to")String to_location,@PathVariable(value = "date")LocalDate date_of_departure){
 		return busService.findBusess(from_location, to_location, date_of_departure);
 	}
 	@GetMapping("/admin/{id}")

@@ -14,6 +14,7 @@ import Loader from './Component/Loader';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserHomePage from './Component/UserHomePage';
+import Protect from './Component/Protect';
 function App() {
     let[loading,setLoading]=useState(false)
     // let location=useLocation();
@@ -60,7 +61,7 @@ function App() {
         <Route path='/adminlogin' element={<AdminLogin/>}/>
         <Route path='/userlogin' element={<UserLogin/>}/>
         <Route path='/adminsignup' element={<AdminRegistration/>}/>
-        <Route path='/adminhomepage/*' element={<AdminHomePage/>}/>
+        <Route path='/adminhomepage/*' element={<Protect Child={AdminHomePage}/>}/>
         <Route path='/userhomepage/*' element={<UserHomePage/>}/>
         <Route path={`/resetpassword`} element={<ResetPassword/>}/>
         <Route path='/adminforgotpassword' element={<ForgotPassword/>}/>

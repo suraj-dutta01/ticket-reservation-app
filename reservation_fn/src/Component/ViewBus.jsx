@@ -40,8 +40,14 @@ const ViewBus = () => {
                 <div className="busdetails">
                     <div className="firstbox">
                     <h4>{item.name}</h4>
-                    <p>Date : {item.date_of_departure}</p>
-                    <p>Seats : {item.number_of_seats}</p>
+                    <div className="seatsbox">
+                    <p>Date : {item.date_of_departure} |</p>
+                    <p>Price : {item.cost_per_seats} ₹</p>
+                    </div>
+                    <div className="seatsbox">
+                    <p>Seats : {item.number_of_seats} |</p>
+                    <p> Left : {item.number_of_avilable_seats}</p>
+                    </div>
                     </div>
                     <div className="secondbox">
                     <h5>Bus : {item.bus_number}</h5>

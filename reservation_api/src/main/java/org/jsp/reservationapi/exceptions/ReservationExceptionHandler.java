@@ -1,5 +1,6 @@
 package org.jsp.reservationapi.exceptions;
 
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,15 @@ public class ReservationExceptionHandler {
 		structure.setData("Cannot SignIn");
 		structure.setStatusCode(HttpStatus.UNAUTHORIZED.value());
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(structure);
+	}
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(UnknownHostException.class)
+	public ResponseEntity<ResponseStructure<String>> UnknownHostExceptionHandler(UnknownHostException exception) {
+		ResponseStructure<String> structure=new ResponseStructure<>();
+		structure.setMessage("Internal Server error");
+		structure.setData("Check Your Internamt Connection");
+		structure.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(structure);
 	}
 
 }

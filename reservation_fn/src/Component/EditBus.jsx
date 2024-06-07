@@ -10,7 +10,11 @@ const EditBus = () => {
     let[from_location,setFrom_location]=useState("");
     let[to_location,setTo_location]=useState("");
     let[date_of_departure,setDate_of_departure]=useState("");
-    let data={name,bus_number,number_of_seats,from_location,to_location,date_of_departure};
+    let[cost_per_seats,setCost_per_seats]=useState("")
+    let[description,setDescription]=useState("")
+    let[imageUrl,setImageUrl]=useState("");
+    let data={name,bus_number,number_of_seats,from_location,to_location,date_of_departure,cost_per_seats,description,imageUrl};
+    
     let param=useParams()
     let navigate=useNavigate();
     useEffect(()=>{
@@ -22,6 +26,9 @@ const EditBus = () => {
             setFrom_location(res.data.data.from_location)
             setTo_location(res.data.data.to_location)
             setDate_of_departure(res.data.data.date_of_departure)
+            setCost_per_seats(res.data.data.cost_per_seats)
+            setDescription(res.data.data.description)
+            setImageUrl(res.data.data.imageUrl)
         })
         .catch((err)=>{
             alert("Unable To update")
@@ -65,6 +72,19 @@ const EditBus = () => {
                     Date Of Departure
                 </label>
                 <input type="date" value={date_of_departure} required onChange={(e)=>{setDate_of_departure(e.target.value)}} placeholder="enter date of departure" />
+                <label htmlFor="">
+                    Cost Per Seat
+                </label>
+                <input type="text" value={cost_per_seats} required onChange={(e)=>{setCost_per_seats(e.target.value)}} placeholder="enter cost per seat" />
+                <label htmlFor="">
+                    Description
+                </label>
+                <input type="text" value={description} required onChange={(e)=>{setDescription(e.target.value)}} placeholder="enter cost per seat" />
+                <label htmlFor="">
+                    Bus Image
+                </label>
+                <input type="text" value={imageUrl} required onChange={(e)=>{setImageUrl(e.target.value)}} placeholder="enter cost per seat" />
+                
                 <button onClick={editBus} id="editbusbutton">Edit</button>
             </form>
         </div>

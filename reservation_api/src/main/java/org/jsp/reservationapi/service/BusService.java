@@ -1,11 +1,13 @@
 package org.jsp.reservationapi.service;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import org.jsp.reservationapi.dao.AdminDao;
 import org.jsp.reservationapi.dao.BusDao;
+import org.jsp.reservationapi.dao.TicketDao;
 import org.jsp.reservationapi.dto.BusRequest;
 import org.jsp.reservationapi.dto.BusResponse;
 import org.jsp.reservationapi.dto.ResponseStructure;
@@ -13,6 +15,8 @@ import org.jsp.reservationapi.exceptions.AdminNotFoundException;
 import org.jsp.reservationapi.exceptions.BusNotFoundException;
 import org.jsp.reservationapi.model.Admin;
 import org.jsp.reservationapi.model.Bus;
+import org.jsp.reservationapi.model.Ticket;
+import org.jsp.reservationapi.util.TicketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +28,15 @@ public class BusService {
 	private BusDao busDao;
 	@Autowired
 	private AdminDao adminDao;
+	@Autowired
+	private TicketDao ticketDao;
+	
 	public ResponseEntity<ResponseStructure<BusResponse>> saveBus(BusRequest busRequest,int admin_id){
 		ResponseStructure<BusResponse> structure=new ResponseStructure<>();
 		Optional<Admin> resAdmin=adminDao.findById(admin_id);
 		if(resAdmin.isPresent()) {
 			Bus bus=mapToBus(busRequest);
+			bus.setNumber_of_avilable_seats(bus.getNumber_of_seats());
 			Admin admin=resAdmin.get();
 			bus.setAdmin(admin);
 			structure.setMessage("Bus Saved");
@@ -71,8 +79,21 @@ public class BusService {
 	}
 	public ResponseEntity<ResponseStructure<String>> deleteById(int id){
 		ResponseStructure<String> structure=new ResponseStructure<>();
-		if (busDao.findBusById(id).isPresent()) {
-			busDao.deleteBus(id);
+		Optional<Bus> resBus=busDao.findBusById(id);
+		if (resBus.isPresent()) {
+			Bus bus=resBus.get();
+			List<Ticket> tickets=ticketDao.findByBusId(bus.getId());
+			if(tickets.size()>0) {
+				for(Ticket ticket:tickets) {
+					ticket.setBus(null);
+					ticket.setStatus(TicketStatus.CANCELLED.toString());
+					ticketDao.saveTicket(ticket);
+				}
+				busDao.deleteBus(id);
+			}else {
+				busDao.deleteBus(id);
+			}
+			
 			structure.setMessage("Bus Found");
 			structure.setData("Bus Deleted");
 			structure.setStatusCode(HttpStatus.OK.value());
@@ -97,13 +118,13 @@ public class BusService {
 	private Bus mapToBus(BusRequest busRequest) {
 		return Bus.builder().name(busRequest.getName()).bus_number(busRequest.getBus_number())
 				.number_of_seats(busRequest.getNumber_of_seats()).from_location(busRequest.getFrom_location())
-				.to_location(busRequest.getTo_location()).date_of_departure(busRequest.getDate_of_departure()).build();
+				.to_location(busRequest.getTo_location()).date_of_departure(busRequest.getDate_of_departure()).cost_per_seats(busRequest.getCost_per_seats()).description(busRequest.getDescription()).imageUrl(busRequest.getImageUrl()).build();
 	}
 
 	private BusResponse mapToBusResponce(Bus bus) {
 		return BusResponse.builder().id(bus.getId()).name(bus.getName()).bus_number(bus.getBus_number())
 				.number_of_seats(bus.getNumber_of_seats()).from_location(bus.getFrom_location())
-				.to_location(bus.getTo_location()).date_of_departure(bus.getDate_of_departure()).build();
+				.to_location(bus.getTo_location()).date_of_departure(bus.getDate_of_departure()).number_of_avilable_seats(bus.getNumber_of_avilable_seats()).cost_per_seats(bus.getCost_per_seats()).description(bus.getDescription()).imageUrl(bus.getImageUrl()).build();
 	}
 
 	public ResponseEntity<ResponseStructure<List<Bus>>> findBusByAdminId(int id){
@@ -117,13 +138,17 @@ public class BusService {
 		structure.setStatusCode(HttpStatus.OK.value());
 		return ResponseEntity.status(HttpStatus.OK).body(structure);
 	}
-	public ResponseEntity<ResponseStructure<List<Bus>>> findBusess(String from_location,String to_location,LocalDate date_of_departure){
-		ResponseStructure<List<Bus>>structure=new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<List<BusResponse>>> findBusess(String from_location,String to_location,LocalDate date_of_departure){
+		ResponseStructure<List<BusResponse>>structure=new ResponseStructure<>();
 		List<Bus> resBus=busDao.findBusess(from_location, to_location, date_of_departure);
 		if(resBus.isEmpty()) {
 			throw new BusNotFoundException("No bus found in this rute");
 		}
-		structure.setData(resBus);
+		List<BusResponse> busess=new LinkedList<>();
+		for(Bus b:resBus) {
+			busess.add(mapToBusResponce(b));
+		}
+		structure.setData(busess);
 		structure.setMessage("Bus found");
 		structure.setStatusCode(HttpStatus.OK.value());
 		return ResponseEntity.status(HttpStatus.OK).body(structure);
