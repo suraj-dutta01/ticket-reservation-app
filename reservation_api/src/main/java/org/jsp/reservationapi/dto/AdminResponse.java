@@ -1,9 +1,5 @@
 package org.jsp.reservationapi.dto;
 
-import java.util.List;
-
-import org.jsp.reservationapi.model.Bus;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +17,6 @@ public class AdminResponse {
 	private String gst_number;
 	private String travels_name;
 	private String password;
-	private List<Bus> busses;
+
 
 }

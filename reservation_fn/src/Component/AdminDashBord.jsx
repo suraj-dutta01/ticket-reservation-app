@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "../Styles/admindashbord.css"
 import axios from "axios";
+import BookBus from "./BookBus";
 const AdminDashBord = () => {
     let[from_location,setFrom_location]=useState("")
     let[to_location,setTo_location]=useState("")
     let[date_of_departure,setDate_of_departure]=useState("")
     let[buses,setBuses]=useState([])
-    
+    let[bookingPopup,setBookingPopup]=useState(false)
+    let[busId,setBusId]=useState("")
     function searchBus(e) {
         e.preventDefault()
         axios.get(`http://localhost:8080/api/busses/${from_location}/${to_location}/${date_of_departure}`)
@@ -17,6 +19,10 @@ const AdminDashBord = () => {
         .catch((err)=>{
             alert("No Bus Found With That Data")
         })
+    }
+    function bookbus(id) {
+        setBookingPopup(!bookingPopup)
+        setBusId(id)
     }
     return ( 
         <div className="admindashbord">
@@ -47,12 +53,14 @@ const AdminDashBord = () => {
                 <p>To : {item.to_location}</p>
                 </div>
                 <div className="dashbusbuttons">
-                     <button >Book Bus</button>
+                     <button onClick={()=>{bookbus(item.id)}} >Book Bus</button>
                 </div>
                 </div>
             </div>
                 )
             })}
+            {bookingPopup && <BookBus id={busId} bookingPopup={bookingPopup} /> }
+            
             </div>
      );
 }

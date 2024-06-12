@@ -1,0 +1,47 @@
+.bookbusseat{
+    position: absolute;
+    height: 91vh;
+    width: 100%;
+    background-color: rgba(104, 96, 96, 0.582);
+    margin-top: -50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+.bookbusseat form{
+ background-color: rgb(227, 209, 209);
+ height: 200px;
+ width: 500px;
+ display: flex;
+ justify-content: center;
+flex-direction: column;
+gap: 15px;
+}
+.bookbusseat form input{
+    height: 40px;
+    width: 100px;
+    background-color: rgb(61, 58, 58);
+    font-size: 12px;
+    border-radius: 10px;
+}
+.bookbusseat form button{
+    height: 40px;
+    width: 100px;
+    background-color: rgb(235, 10, 10);
+    font-size: 12px;
+    border-radius: 10px;
+}
+.bookseatbox1{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+#closebookseat{
+    position: absolute;
+    top: 30.7%;
+    left: 67.7%;
+    color: red;
+}

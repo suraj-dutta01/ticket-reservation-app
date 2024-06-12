@@ -2,6 +2,7 @@ package org.jsp.reservationapi.service;
 
 import java.util.Optional;
 
+
 import org.jsp.reservationapi.dao.BusDao;
 import org.jsp.reservationapi.dao.TicketDao;
 import org.jsp.reservationapi.dao.UserDao;
@@ -18,7 +19,6 @@ import org.jsp.reservationapi.util.TicketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
