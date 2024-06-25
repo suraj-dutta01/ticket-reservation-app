@@ -1,6 +1,7 @@
 package org.jsp.reservationapi.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.jsp.reservationapi.model.Ticket;
 import org.jsp.reservationapi.repository.TicketRepository;
@@ -20,6 +21,9 @@ public class TicketDao {
 	}
 	public List<Ticket> findByUserId(int id){
 		return ticketRepository.findByUserId(id);
+	}
+	public Optional<Ticket> findById(int id){
+		return ticketRepository.findById(id);
 	}
 
 }

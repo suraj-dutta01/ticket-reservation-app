@@ -41,6 +41,15 @@ public class ReservationExceptionHandler {
 		structure.setStatusCode(HttpStatus.NOT_FOUND.value());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
 	}
+	@ExceptionHandler(TicketNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> TicketNotFoundExceptionHandler(TicketNotFoundException exception){
+		ResponseStructure<String> structure=new ResponseStructure<>();
+		structure.setMessage("Ticket Not Found");
+		structure.setData(exception.getMessage());
+		structure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
+	}
+	
 	@ExceptionHandler(UserVerificationFailedException.class)
 	public ResponseEntity<ResponseStructure<String>> UserVerificationFailedExceptionHandler(UserVerificationFailedException exception){
 		ResponseStructure<String> structure=new ResponseStructure<>();

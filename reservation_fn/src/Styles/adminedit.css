@@ -1,3 +1,49 @@
 .adminedit{
-    padding-top: 100px;
+    padding-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(98, 91, 91);
+    color: white;
+}
+.adminedit form{
+    display: grid;
+    grid-template-columns: 200px 300px;
+ justify-content: center;
+ padding: 10px;
+ box-shadow: 0px 0px 20px rgb(34, 33, 33);
+ height: 63%;
+ border-radius: 8px;
+ width: 45%;
+ gap: 8px;
+ color: white;
+ padding: 15px;
+ padding-bottom: 53px;
+ background-color: rgb(144, 181, 168);
+}
+.adminedit form button{
+    height: 30px;
+    width: 300px;
+    margin-top: -41px;
+    background-color: rgb(37, 234, 23);
+    border: none;
+    color: aliceblue;
+    border-radius: 5px;
+    padding-left: 15px;
+    overflow: hidden;
+    transition: 240ms;
+    position: relative;
+    top: 50px;
+    left: 208px;
+}
+.adminedit form input{
+    background-color: rgb(110, 121, 110);
+    outline: none;
+    border: none;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    padding-left: 15px;
+    overflow: hidden;
 }

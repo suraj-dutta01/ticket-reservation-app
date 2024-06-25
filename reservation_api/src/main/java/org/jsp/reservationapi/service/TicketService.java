@@ -10,6 +10,7 @@ import org.jsp.reservationapi.dto.EmailConfiguration;
 import org.jsp.reservationapi.dto.ResponseStructure;
 import org.jsp.reservationapi.dto.TicketResponse;
 import org.jsp.reservationapi.exceptions.BusNotFoundException;
+import org.jsp.reservationapi.exceptions.TicketNotFoundException;
 import org.jsp.reservationapi.exceptions.UserNotFoundException;
 import org.jsp.reservationapi.model.Bus;
 import org.jsp.reservationapi.model.Ticket;
@@ -92,6 +93,40 @@ public class TicketService {
 		ticketResponse.setStatus(ticket.getStatus());
 		ticketResponse.setUsername(user.getName());
 		return ticketResponse;
+	}
+	public ResponseEntity<ResponseStructure<String>> cancelTicket(int busId,int userId,int ticketId) {
+		ResponseStructure<String> structure=new ResponseStructure<String>();
+		Optional<Bus>resBus=busDao.findBusById(busId);
+		Optional<User>resUser=userDao.findById(userId);
+		Optional<Ticket>resTicket=ticketDao.findById(ticketId);
+		if(resBus.isEmpty())
+			throw new BusNotFoundException("Bus Id is Invalid");
+		if(resUser.isEmpty())
+			throw new UserNotFoundException("User Id is Invalid");
+		if(resTicket.isEmpty())
+			throw new TicketNotFoundException("Ticket Id is Invalid");
+		Ticket ticket=resTicket.get();
+		User user=resUser.get();
+		Bus bus=resBus.get();
+		if(ticket.getUser().getId()==user.getId() && ticket.getBus().getId()==bus.getId()) {
+			ticket.setStatus(TicketStatus.CANCELLED.toString());
+			bus.setNumber_of_avilable_seats(bus.getNumber_of_avilable_seats()+ticket.getNumber_Of_Seats_Booked());
+			ticketDao.saveTicket(ticket);
+			busDao.saveBus(bus);
+			emailConfiguration.setToAddress(ticket.getUser().getEmail());
+			emailConfiguration.setSubject("TICKET CANCALITATION");
+			emailConfiguration.setText("Dear user, Your ticket has been cancled successfully monet will be refunder to Your Account soon");
+			mailService.sendMail(emailConfiguration);
+			structure.setMessage("User Bus And Ticket Found");
+			structure.setData("Ticket Cancalation successfull");
+			structure.setStatusCode(HttpStatus.OK.value());
+			return ResponseEntity.status(HttpStatus.OK).body(structure);
+		}
+		structure.setMessage("Please Provide Valid Cradentials");
+		structure.setData("Ticket Cancalation Failed");
+		structure.setStatusCode(HttpStatus.OK.value());
+		return ResponseEntity.status(HttpStatus.OK).body(structure);
+		    
 	}
 	
 

@@ -22,4 +22,8 @@ public class TicketController {
 	public ResponseEntity<ResponseStructure<TicketResponse>> bookTicket(@PathVariable int userId ,@PathVariable int busId,@PathVariable int numberOfSeats) {
 		return ticketService.bookTicket(userId, busId, numberOfSeats);
 	}
+	@PostMapping("/cancel/{busId}/{userId}/{ticketId}")
+	public ResponseEntity<ResponseStructure<String>> cancelTicket(@PathVariable int busId,@PathVariable int userId,@PathVariable int ticketId) {
+		return ticketService.cancelTicket(busId, userId, ticketId);
+	}
 }

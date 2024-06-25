@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="jakarta.servlet.http.HttpServletResponse"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
@@ -23,8 +21,6 @@
     <fullyQualifiedTypeName name="org.jsp.reservationapi.repository.TicketRepository"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.dao.UserDao"/>
-    <fullyQualifiedTypeName name="org.jsp.reservationapi.exceptions.BusNotFoundException"/>
-    <fullyQualifiedTypeName name="org.jsp.reservationapi.exceptions.UserNotFoundException"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.util.AccountStatus"/>
     <fullyQualifiedTypeName name="java.nio.channels.IllegalSelectorException"/>
     <fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
@@ -36,10 +32,6 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.dao.TicketDao"/>
-    <fullyQualifiedTypeName name="org.jsp.reservationapi.model.User"/>
-    <fullyQualifiedTypeName name="org.jsp.reservationapi.model.Ticket"/>
-    <fullyQualifiedTypeName name="org.jsp.reservationapi.util.TicketStatus"/>
-    <fullyQualifiedTypeName name="java.util.Optional"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.model.Admin"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.dao.BusDao"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.service.BusService"/>
@@ -49,15 +41,23 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseStatus"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.LinkedList"/>
-    <fullyQualifiedTypeName name="org.jsp.reservationapi.model.Bus"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.dto.BusResponse"/>
     <fullyQualifiedTypeName name="org.springframework.mail.javamail.JavaMailSender"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.dto.EmailConfiguration"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
-    <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.service.ReservationApiMailService"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.dto.TicketResponse"/>
-    <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
     <fullyQualifiedTypeName name="org.jsp.reservationapi.dto.ResponseStructure"/>
+    <fullyQualifiedTypeName name="java.util.Optional"/>
+    <fullyQualifiedTypeName name="org.jsp.reservationapi.exceptions.BusNotFoundException"/>
+    <fullyQualifiedTypeName name="org.jsp.reservationapi.exceptions.UserNotFoundException"/>
+    <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="org.jsp.reservationapi.exceptions.TicketNotFoundException"/>
+    <fullyQualifiedTypeName name="org.jsp.reservationapi.model.Ticket"/>
+    <fullyQualifiedTypeName name="org.jsp.reservationapi.model.User"/>
+    <fullyQualifiedTypeName name="org.jsp.reservationapi.model.Bus"/>
+    <fullyQualifiedTypeName name="org.jsp.reservationapi.util.TicketStatus"/>
+    <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
     <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
 </qualifiedTypeNameHistroy>
